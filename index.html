@@ -1,363 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="mekabrine">
-    <meta property="og:description" content="Here's all my random stuff">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://example.com/test1">
-    <meta property="og:image" content="https://www.mekabrine.space/favicons/logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I Love You</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #00aaff, #aa00ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+    }
 
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mekabrine</title>
+    h1 {
+      font-size: 4em;
+      z-index: 1;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+    }
 
-    <style>
-        body {
-            background: linear-gradient(45deg, #A6B3E2, #4C3D7B);
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: float 10s linear infinite;
+    }
 
-        h1 {
-            margin-top: 0;
-        }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      border-radius: 50%;
+    }
 
-        .welcome, .meka {
-            font-size: 45px;
-        }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
 
-        .welcome span, .meka span {
-            display: inline-block;
-            transition: font-size 0.3s ease-in-out;
-        }
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
 
-        .welcome span:hover {
-            font-size: 80px;
-        }
-
-        .meka span:hover {
-            font-size: 105px;
-        }
-
-        h1 span.welcome {
-            font-size: 45px;
-            display: block;
-            background: -webkit-linear-gradient(#EEF7FF, #F1F0FD);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        h1 span.meka {
-            font-size: 70px;
-            font-weight: bold;
-            display: block;
-            background: -webkit-linear-gradient(#F1F0FD, #F4E8FA);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-        }
-
-        .scroll-container {
-            overflow-x: auto;
-            white-space: nowrap;
-            width: 100%;
-            padding: 20px 0;
-        }
-
-        .container {
-            display: inline-grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            justify-items: center;
-            align-items: center;
-            width: fit-content;
-        }
-
-        .image-link {
-            text-decoration: none;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-        }
-
-        .image-link:hover {
-            transform: scale(1.1);
-        }
-
-        .image-link img {
-            width: 250px;
-            height: 250px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .image-link p {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6);
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes flipIn {
-            0% {
-                transform: rotateY(90deg);
-                opacity: 0;
-            }
-            100% {
-                transform: rotateY(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes flipOut {
-            0% {
-                transform: rotateY(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: rotateY(-90deg);
-                opacity: 0;
-            }
-        }
-
-        .modal-content {
-            background: linear-gradient(45deg, #3F2A55, #2C3E69);
-            margin: 0 auto;
-            padding: 20px;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-            border-radius: 60px;
-            position: relative;
-            top: 10%;
-        }
-
-        .modal-content img {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 20px;
-        }
-
-        .modal-content h2 {
-            color: #fff;
-        }
-
-        .modal-content p {
-            color: #fcfcfc;
-            margin-bottom: 20px;
-        }
-
-        .go-to-btn {
-            background-color: #5A4B8D;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-
-        .go-to-btn:hover {
-            background-color: #4b3c6b;
-            transform: scale(1.05);
-        }
-    </style>
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1) rotate(-45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="content-wrapper">
-        <h1>
-            <span class="welcome">
-                <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span> <span>t</span><span>o</span>
-            </span>
-            <span class="meka" href="https://www.mekabrine.space/">
-                <b><span>m</span><span>e</span><span>k</span><span>a</span><span>b</span><span>r</span><span>i</span><span>n</span><span>e</span><span>.</span><span>s</span><span>p</span><span>a</span><span>c</span><span>e</span></b>
-            </span>
-        </h1>
+  <h1>I love you</h1>
 
-        <div class="scroll-container">
-            <div class="container">
-                <div class="image-link" data-modal="codeblocks-modal">
-                    <img src="https://www.mekabrine.space/favicons/mcb.png" alt="Codeblocks">
-                    <p>Codeblocks</p>
-                </div>
-                <div class="image-link" data-modal="ipas-modal">
-                    <img src="https://www.mekabrine.space/favicons/ipas.png" alt="IPAs">
-                    <p>IPAs</p>
-                </div>
-                <div class="image-link" data-modal="tester-modal">
-                    <img src="https://www.mekabrine.space/favicons/tester.png" alt="Tester">
-                    <p>Tester</p>
-                </div>
-                <div class="image-link" data-modal="ps-modal">
-                    <img src="https://www.mekabrine.space/favicons/multitasking.png" alt="Multitasking">
-                    <p>Multitasking</p>
-                </div>
-                <div class="image-link" data-modal="cloud-modal">
-                    <img src="https://www.mekabrine.space/favicons/image_2025-01-13_191056377.png" alt="Meka's Cloud">
-                    <p>Meka's Cloud</p>
-                </div>
-                <div class="image-link" data-modal="upload-modal">
-                    <img src="https://www.mekabrine.space/favicons/upload.png" alt="Public Upload">
-                    <p>Public Upload</p>
-                </div>
+  <script>
+    const colors = ['#ff66cc', '#66ccff', '#cc66ff', '#6699ff', '#ff99ff'];
 
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Codeblocks -->
-    <div id="codeblocks-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/mcb.png" alt="Codeblocks">
-            <h2>Codeblocks</h2>
-            <p>Simple website to easily code using blocks that snap into place, you can even create your own blocks!</p>
-            <a href="/mcb" title="Codeblocks" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-    <!-- Modal for IPAs -->
-    <div id="ipas-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/ipas.png" alt="IPAs">
-            <h2>IPAs</h2>
-            <p>My library of .ipa files, you can add your own files to help grow the collection!</p>
-            <a href="/ipas" title="ipas" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-    <!-- Modal for tester -->
-    <div id="tester-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/tester.png" alt="tester">
-            <h2>Tester</h2>
-            <p>Simple tool to test functionality of webpages!</p>
-            <a href="https://testing.mekabrine.space" title="Tester" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-
-    <!-- Modal for pasteshare -->
-    <div id="ps-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/multitasking.png" alt="multitasking">
-            <h2>Multitasking</h2>
-            <p>Simple tool to open webpages in a dedicated window!</p>
-            <a href="https://www.mekabrine.space/multitasking" title="multitasking" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-    <!-- Modal for cloud -->
-    <div id="cloud-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/image_2025-01-13_191056377.png" alt="Meka's Cloud">
-            <h2>Meka's Cloud</h2>
-            <p>Files on publicfiles.mekabrine.space</p>
-            <a href="https://www.mekabrine.space/cloud.html" title="Meka's Cloud" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-    
-    <div id="upload-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/upload.png" alt="Public Upload">
-            <h2>Public Upload</h2>
-            <p>Publicly upload files up to 2gb for at least 30 minutes (random amount of time past that)</p>
-            <a href="https://publicupload.mekabrine.space/" title="Public Upload" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-    <!--  STOPPED Modal for guides -->
-    <div id="ssguides-modal" class="modal">
-        <div class="modal-content">
-            <img src="https://www.mekabrine.space/favicons/image_2025-01-13_191056377.png" alt="guides">
-            <h2>SideStore Guides</h2>
-            <p>Files on publicfiles.mekabrine.space</p>
-            <a href="https://sidestoreguides.mekabrine.space" title="Meka's Cloud" class="go-to-btn">Go To</a>
-        </div>
-    </div>
-
-    <script>
-        const links = document.querySelectorAll('.image-link');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                const modalId = link.getAttribute('data-modal');
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.style.display = 'block';
-                    modal.querySelector('.modal-content').style.animation = 'flipIn 0.5s ease-in-out';
-                }
-            });
-        });
-
-        window.onclick = function (event) {
-            if (event.target.classList.contains('modal')) {
-                const modal = event.target;
-                modal.querySelector('.modal-content').style.animation = 'flipOut 0.5s ease-in-out';
-                modal.style.animation = 'fadeOut 0.5s ease-in-out';
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 500);
-            }
-        };
-        
-        // Redirect if page width is less than 650px
-        if (window.innerWidth < 650) {
-            window.location.href = "https://mekabrine.space/mobile/";
-        }
-
-    </script>
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDelay = `${Math.random() * 10}s`;
+      heart.style.animationDuration = `${6 + Math.random() * 6}s`;
+      heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      document.body.appendChild(heart);
+    }
+  </script>
 </body>
-
 </html>
