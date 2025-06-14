@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Anniversary Timer">
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Heart_corazón.svg/768px-Heart_corazón.svg.png">
+  <title>Anniversary Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #00aaff, #aa00ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      position: relative;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1rem;
+    }
+
+    .timer {
+      font-size: 1.5em;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .unit {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .label {
+      font-size: 0.8em;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 30px;
+      background: white;
+      color: #9c27b0;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Time Till Dating 💙Aniversary💜</h1>
+
+  <div class="timer" id="timer">
+    <!-- Values populated by JS -->
+  </div>
+
+  <button onclick="toggleMode()">Switch to Stopwatch</button>
+
+  <script>
+    const timerEl = document.getElementById("timer");
+    let mode = "countdown"; // or "stopwatch"
+
+    const targetThisYear = new Date();
+    targetThisYear.setMonth(11); // December
+    targetThisYear.setDate(7);
+    targetThisYear.setHours(23, 30, 0, 0); // 11:30pm
+    if (new Date() > targetThisYear) {
+      targetThisYear.setFullYear(targetThisYear.getFullYear() + 1);
+    }
+
+    const startDate = new Date("2024-12-07T23:30:00-08:00"); // PST
+
+    function updateDisplay(duration) {
+      const years = Math.floor(duration / (365.25 * 24 * 60 * 60 * 1000));
+      const months = Math.floor((duration % (365.25 * 24 * 60 * 60 * 1000)) / (30.44 * 24 * 60 * 60 * 1000));
+      const weeks = Math.floor((duration % (30.44 * 24 * 60 * 60 * 1000)) / (7 * 24 * 60 * 60 * 1000));
+      const days = Math.floor((duration % (7 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
+      const hours = Math.floor((duration % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+      const minutes = Math.floor((duration % (60 * 60 * 1000)) / (60 * 1000));
+      const seconds = Math.floor((duration % (60 * 1000)) / 1000);
+      const milliseconds = duration % 1000;
+
+      const units = [
+        ["Years", years],
+        ["Months", months],
+        ["Weeks", weeks],
+        ["Days", days],
+        ["Hours", hours],
+        ["Minutes", minutes],
+        ["Seconds", seconds],
+        ["Milliseconds", milliseconds],
+      ];
+
+      timerEl.innerHTML = units.map(([label, val]) => `
+        <div class="unit">
+          ${String(val).padStart(2, '0')}
+          <div class="label">${label}</div>
+        </div>
+      `).join("");
+    }
+
+    function updateTimer() {
+      const now = new Date();
+      let diff;
+
+      if (mode === "countdown") {
+        diff = targetThisYear - now;
+        if (diff < 0) diff = 0;
+      } else {
+        diff = now - startDate;
+        if (diff < 0) diff = 0;
+      }
+
+      updateDisplay(diff);
+      requestAnimationFrame(updateTimer);
+    }
+
+    function toggleMode() {
+      mode = mode === "countdown" ? "stopwatch" : "countdown";
+      document.querySelector("button").innerText = mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
+    }
+
+    updateTimer();
+  </script>
+
+</body>
+</html>
