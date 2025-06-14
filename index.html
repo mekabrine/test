@@ -25,16 +25,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       color: white;
       position: relative;
+      text-align: center;
     }
 
-    h1 {
-      font-size: 4em;
+    .message {
       z-index: 1;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
-      position: absolute;
       animation: floatText 4s ease-in-out infinite;
+    }
+
+    .message div {
+      font-size: 3em;
+      line-height: 1.2em;
     }
 
     @keyframes floatText {
@@ -86,10 +91,20 @@
         opacity: 0;
       }
     }
+
+    @media (max-width: 600px) {
+      .message div {
+        font-size: 2.5em;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>I love you babe 😘🥰</h1>
+  <div class="message">
+    <div>I love you</div>
+    <div>babe</div>
+    <div>😘🥰</div>
+  </div>
 
   <script>
     const colors = ['#ff66cc', '#66ccff', '#cc66ff', '#6699ff', '#ff99ff'];
