@@ -5,80 +5,83 @@
   <title>I love you babe 💋🥰</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="https://ilovereagan.space/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="https://ilovereagan.space/favicon.ico" type="image/x-icon" />
 
-  <!-- Social preview (Discord, iMessage, etc.) -->
+  <!-- Social Media Embed (Discord, iMessage, etc.) -->
   <meta property="og:title" content="I love you babe 💋🥰" />
   <meta property="og:description" content="Just a little something for you ❤️" />
   <meta property="og:image" content="https://ilovereagan.space/ilovereaganbanner.jpg" />
   <meta property="og:url" content="https://ilovereagan.space" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Styling -->
   <style>
-    body {
+    html, body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
       background: linear-gradient(to right, #00c6ff, #7f00ff);
       font-family: 'Arial', sans-serif;
-      overflow: hidden;
     }
 
-    h1 {
+    .floating-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-size: 3rem;
       color: white;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      position: relative;
-      z-index: 1;
+      animation: floatText 4s ease-in-out infinite;
+      z-index: 10;
     }
 
-    .hearts {
-      position: absolute;
-      width: 100%;
-      top: 40%;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      opacity: 0;
-      animation: fadeIn 2s ease-in-out forwards 2s;
-      z-index: 0;
+    @keyframes floatText {
+      0% { transform: translate(-50%, -50%) translateY(0); }
+      50% { transform: translate(-50%, -50%) translateY(-10px); }
+      100% { transform: translate(-50%, -50%) translateY(0); }
     }
 
     .heart {
+      position: absolute;
       font-size: 1.5rem;
-      animation: float 3s ease-in-out infinite;
+      opacity: 0.7;
+      animation: floatUp 5s linear infinite;
+      pointer-events: none;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes float {
-      0%, 100% {
+    @keyframes floatUp {
+      0% {
         transform: translateY(0);
+        opacity: 0.7;
       }
-      50% {
-        transform: translateY(-10px);
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
       }
     }
   </style>
 </head>
 <body>
-  <div class="hearts">
-    <div class="heart">💙</div>
-    <div class="heart">💗</div>
-    <div class="heart">💜</div>
-    <div class="heart">💓</div>
-    <div class="heart">💚</div>
-    <div class="heart">💘</div>
-    <div class="heart">💖</div>
-  </div>
 
-  <h1>I love you babe 😘🥰</h1>
+  <div class="floating-text">I love you babe 💋🥰</div>
+
+  <!-- Floating hearts container -->
+  <script>
+    const heartColors = ['💙', '💗', '💜', '💓', '💚', '💘', '💖'];
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.bottom = '0';
+      heart.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+      heart.style.animationDuration = `${4 + Math.random() * 3}s`;
+      heart.innerText = heartColors[Math.floor(Math.random() * heartColors.length)];
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+
 </body>
 </html>
