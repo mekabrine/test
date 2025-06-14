@@ -21,6 +21,8 @@
       color: white;
       position: relative;
       text-align: center;
+      padding: 0 10px;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -30,17 +32,20 @@
 
     .timer {
       font-size: 1.5em;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
-      max-width: 700px;
-      margin: auto;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .unit {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 10px;
       padding: 10px;
+      min-width: 100px;
+      flex: 1 0 auto;
     }
 
     .label {
