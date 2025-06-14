@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>I love you babe 💋🥰</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I Love You Babe 💋🥰</title>
 
   <!-- Favicon -->
   <link rel="icon" href="https://ilovereagan.space/favicon.ico" type="image/x-icon" />
 
-  <!-- Social Media Embed (Discord, iMessage, etc.) -->
+  <!-- Social Preview -->
   <meta property="og:title" content="I love you babe 💋🥰" />
   <meta property="og:description" content="Just a little something for you ❤️" />
   <meta property="og:image" content="https://ilovereagan.space/ilovereaganbanner.jpg" />
@@ -15,73 +16,94 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
+      height: 100vh;
       overflow: hidden;
-      background: linear-gradient(to right, #00c6ff, #7f00ff);
-      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #00aaff, #aa00ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
     }
 
-    .floating-text {
+    h1 {
+      font-size: 4em;
+      z-index: 1;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       animation: floatText 4s ease-in-out infinite;
-      z-index: 10;
     }
 
     @keyframes floatText {
-      0% { transform: translate(-50%, -50%) translateY(0); }
-      50% { transform: translate(-50%, -50%) translateY(-10px); }
-      100% { transform: translate(-50%, -50%) translateY(0); }
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
     }
 
     .heart {
       position: absolute;
-      font-size: 1.5rem;
-      opacity: 0.7;
-      animation: floatUp 5s linear infinite;
-      pointer-events: none;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: float 10s linear infinite;
     }
 
-    @keyframes floatUp {
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes float {
       0% {
-        transform: translateY(0);
-        opacity: 0.7;
+        transform: translateY(0vh) scale(1) rotate(-45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
       }
       100% {
-        transform: translateY(-100vh);
+        transform: translateY(-110vh) scale(1.5) rotate(-45deg);
         opacity: 0;
       }
     }
   </style>
 </head>
 <body>
+  <h1>I love you babe 😘🥰</h1>
 
-  <div class="floating-text">I love you babe 💋🥰</div>
-
-  <!-- Floating hearts container -->
   <script>
-    const heartColors = ['💙', '💗', '💜', '💓', '💚', '💘', '💖'];
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.bottom = '0';
-      heart.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
-      heart.style.animationDuration = `${4 + Math.random() * 3}s`;
-      heart.innerText = heartColors[Math.floor(Math.random() * heartColors.length)];
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
-    }
-    setInterval(createHeart, 300);
-  </script>
+    const colors = ['#ff66cc', '#66ccff', '#cc66ff', '#6699ff', '#ff99ff'];
 
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDelay = `${Math.random() * 10}s`;
+      heart.style.animationDuration = `${6 + Math.random() * 6}s`;
+      heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      document.body.appendChild(heart);
+    }
+  </script>
 </body>
 </html>
