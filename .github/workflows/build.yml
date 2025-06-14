@@ -1,39 +1,24 @@
-name: Build iOS IPA (Unsigned)
+name: Build IPA
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Xcode
-      run: sudo xcode-select -s /Applications/Xcode_15.2.app
+      - name: Setup Xcode
+        run: sudo xcode-select -s /Applications/Xcode_14.2.app
 
-    - name: Build .xcarchive
-      run: |
-        xcodebuild clean archive \
-          -scheme AnniversaryTimerApp \
-          -archivePath ${{ github.workspace }}/build/AnniversaryTimerApp.xcarchive \
-          -destination 'generic/platform=iOS' \
-          -allowProvisioningUpdates
+      - name: Install Fastlane
+        run: sudo gem install fastlane
 
-    - name: Export IPA (unsigned)
-      run: |
-        xcodebuild -exportArchive \
-          -archivePath ${{ github.workspace }}/build/AnniversaryTimerApp.xcarchive \
-          -exportPath ${{ github.workspace }}/build/export \
-          -exportOptionsPlist ExportOptions.plist
-
-    - name: Upload IPA
-      uses: actions/upload-artifact@v4
-      with:
-        name: AnniversaryTimerApp.ipa
-        path: build/export/*.ipa
+      - name: Build App
+        run: |
+          fastlane gym --workspace LoveAnniversaryApp.xcworkspace \
+                       --scheme LoveAnniversaryApp \
+                       --export_method development
