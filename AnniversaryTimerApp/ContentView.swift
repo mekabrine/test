@@ -1,54 +1,81 @@
-
 import SwiftUI
 
-struct ContentView: View {
+@main
+struct LoveAnniversaryApp: App {
+    var body: some Scene {
+        WindowGroup {
+            TimerView()
+        }
+    }
+}
+
+struct TimerView: View {
     @State private var isCountdown = true
     @State private var now = Date()
+    let calendar = Calendar.current
+    
     let targetDate: Date = {
         let calendar = Calendar(identifier: .gregorian)
-        let components = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "America/Los_Angeles"),
-                                        year: Calendar.current.component(.year, from: Date()),
-                                        month: 12, day: 7, hour: 23, minute: 30)
+        var components = DateComponents()
+        components.year = calendar.component(.year, from: Date())
+        components.month = 12
+        components.day = 7
+        components.hour = 23
+        components.minute = 30
+        components.timeZone = TimeZone(identifier: "America/Los_Angeles")
         return calendar.date(from: components)!
     }()
+
     let startDate: Date = {
-        let calendar = Calendar(identifier: .gregorian)
-        let components = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "America/Los_Angeles"),
-                                        year: 2024, month: 12, day: 7, hour: 23, minute: 30)
-        return calendar.date(from: components)!
+        var components = DateComponents()
+        components.year = 2024
+        components.month = 12
+        components.day = 7
+        components.hour = 23
+        components.minute = 30
+        components.timeZone = TimeZone(identifier: "America/Los_Angeles")
+        return Calendar.current.date(from: components)!
     }()
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
-
-            VStack(spacing: 20) {
+            LinearGradient(
+                gradient: Gradient(colors: [.blue, .purple]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ).ignoresSafeArea()
+            
+            VStack(spacing: 10) {
                 Text("Time Till Dating 💙Aniversary💜")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.white)
+                    .padding(.top, 40)
+                
+                let (months, weeks, days, hours, minutes, seconds, milliseconds, years) = timeComponents()
 
-                let diff = timeDifference(from: isCountdown ? now : startDate, to: isCountdown ? targetDate : now)
-                Group {
-                    TimeRow(label: "YRS", value: diff.years, highlight: true)
-                    TimeRow(label: "MONTHS", value: diff.months)
-                    TimeRow(label: "WEEKS", value: diff.weeks)
-                    TimeRow(label: "DAYS", value: diff.days)
-                    TimeRow(label: "HRS", value: diff.hours)
-                    TimeRow(label: "MIN", value: diff.minutes)
-                    TimeRow(label: "SEC", value: diff.seconds)
-                    TimeRow(label: "MS", value: diff.milliseconds)
+                Text("\(months) Months").font(.largeTitle).foregroundColor(.white)
+                Text("\(weeks) Weeks").font(.title).foregroundColor(.white)
+                Text("\(days) Days").font(.title).foregroundColor(.white)
+                Text("\(hours) Hours").font(.title).foregroundColor(.white)
+                Text("\(minutes) Minutes").font(.title).foregroundColor(.white)
+                Text("\(seconds) Seconds").font(.title).foregroundColor(.white)
+                Text("\(milliseconds) Milliseconds").font(.title).foregroundColor(.white)
+                
+                if !isCountdown {
+                    Text("\(years) Years").font(.title2).foregroundColor(.white)
                 }
-
-                Button(action: { isCountdown.toggle() }) {
+                
+                Button(action: {
+                    isCountdown.toggle()
+                }) {
                     Text(isCountdown ? "Switch to Stopwatch" : "Switch to Countdown")
                         .padding()
-                        .background(Color.white.opacity(0.2))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
+                        .foregroundColor(.black)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                }.padding(.top)
+
             }
-            .padding()
         }
         .onAppear {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
@@ -57,40 +84,19 @@ struct ContentView: View {
         }
     }
 
-    func timeDifference(from start: Date, to end: Date) -> (years: Int, months: Int, weeks: Int, days: Int, hours: Int, minutes: Int, seconds: Int, milliseconds: Int) {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .weekOfMonth, .day, .hour, .minute, .second], from: start, to: end)
-        let milliseconds = Int(end.timeIntervalSince(start) * 1000) % 1000
-        return (
-            years: components.year ?? 0,
-            months: components.month ?? 0,
-            weeks: components.weekOfMonth ?? 0,
-            days: components.day ?? 0,
-            hours: components.hour ?? 0,
-            minutes: components.minute ?? 0,
-            seconds: components.second ?? 0,
-            milliseconds: milliseconds
-        )
+    func timeComponents() -> (Int, Int, Int, Int, Int, Int, Int, Int) {
+        let target = isCountdown ? targetDate : startDate
+        let diff = isCountdown ? target.timeIntervalSince(now) : now.timeIntervalSince(target)
+        let absDiff = abs(diff)
+        
+        let months = Int(absDiff) / 2592000
+        let weeks = Int(absDiff) / 604800
+        let days = Int(absDiff) / 86400 % 7
+        let hours = Int(absDiff) / 3600 % 24
+        let minutes = Int(absDiff) / 60 % 60
+        let seconds = Int(absDiff) % 60
+        let milliseconds = Int((absDiff - floor(absDiff)) * 1000)
+        let years = Int(absDiff) / 31536000
+        return (months, weeks, days, hours, minutes, seconds, milliseconds, years)
     }
-}
-
-struct TimeRow: View {
-    var label: String
-    var value: Int
-    var highlight: Bool = false
-
-    var body: some View {
-        HStack {
-            Text(String(format: "%02d", value))
-                .font(.system(size: 64, weight: .bold))
-                .foregroundColor(highlight ? .red : .white)
-            Text(label)
-                .font(.title2)
-                .foregroundColor(highlight ? .red : .white)
-        }
-    }
-}
-
-#Preview {
-    ContentView()
 }
