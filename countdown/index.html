@@ -12,22 +12,17 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-
     body {
+      margin: 0;
+      min-height: 100vh;
       background: linear-gradient(135deg, #00aaff, #aa00ff);
       font-family: 'Segoe UI', sans-serif;
-      color: white;
-      text-align: center;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      overflow-x: hidden;
+      justify-content: flex-start;
+      color: white;
+      text-align: center;
       padding: 20px 10px;
     }
 
@@ -58,12 +53,8 @@
       margin-top: 5px;
     }
 
-    .button-container {
-      margin-top: auto;
-      padding-top: 30px;
-    }
-
     button {
+      margin-top: 30px;
       background: white;
       color: #9c27b0;
       border: none;
@@ -77,32 +68,20 @@
     button:hover {
       background: #f0f0f0;
     }
-
-    @media (max-height: 700px) {
-      body {
-        justify-content: flex-start;
-      }
-
-      .button-container {
-        margin-top: 40px;
-        padding-bottom: 40px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <h1 id="title">💙Dating💜 Anniversary In</h1>
+  <h1>Time Till Dating 💙Aniversary💜</h1>
 
-  <div class="timer" id="timer"></div>
-
-  <div class="button-container">
-    <button onclick="toggleMode()">Switch to Stopwatch</button>
+  <div class="timer" id="timer">
+    <!-- Timer Units -->
   </div>
+
+  <button onclick="toggleMode()">Switch to Stopwatch</button>
 
   <script>
     const timerEl = document.getElementById("timer");
-    const titleEl = document.getElementById("title");
     let mode = "countdown";
 
     const targetThisYear = new Date();
@@ -162,12 +141,7 @@
 
     function toggleMode() {
       mode = mode === "countdown" ? "stopwatch" : "countdown";
-      document.querySelector("button").innerText =
-        mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
-      titleEl.innerText =
-        mode === "countdown"
-          ? "💙Dating💜 Anniversary In"
-          : "💙Dating💜 For";
+      document.querySelector("button").innerText = mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
     }
 
     updateTimer();
