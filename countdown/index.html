@@ -12,17 +12,22 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
       background: linear-gradient(135deg, #00aaff, #aa00ff);
       font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       color: white;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
       padding: 20px 10px;
     }
 
@@ -53,8 +58,12 @@
       margin-top: 5px;
     }
 
+    .button-container {
+      margin-top: auto;
+      padding-top: 30px;
+    }
+
     button {
-      margin-top: 30px;
       background: white;
       color: #9c27b0;
       border: none;
@@ -68,17 +77,28 @@
     button:hover {
       background: #f0f0f0;
     }
+
+    @media (max-height: 700px) {
+      body {
+        justify-content: flex-start;
+      }
+
+      .button-container {
+        margin-top: 40px;
+        padding-bottom: 40px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h1 id="title">💙Dating💜 Anniversary In</h1>
 
-  <div class="timer" id="timer">
-    <!-- Timer Units -->
-  </div>
+  <div class="timer" id="timer"></div>
 
-  <button onclick="toggleMode()">Switch to Stopwatch</button>
+  <div class="button-container">
+    <button onclick="toggleMode()">Switch to Stopwatch</button>
+  </div>
 
   <script>
     const timerEl = document.getElementById("timer");
