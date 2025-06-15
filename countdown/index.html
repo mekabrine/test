@@ -25,6 +25,7 @@
       margin: 20px 0;
       z-index: 1;
       position: relative;
+      transition: opacity 0.4s ease;
     }
 
     .timer {
@@ -36,12 +37,18 @@
       margin: auto;
       z-index: 1;
       position: relative;
+      transition: opacity 0.4s ease;
     }
 
     .unit {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 10px;
       padding: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    .unit.zero {
+      opacity: 0.5;
     }
 
     .label {
@@ -66,6 +73,10 @@
 
     select:hover {
       background: rgba(0, 0, 0, 0.6);
+    }
+
+    .fade-out {
+      opacity: 0;
     }
 
     .heart {
@@ -130,32 +141,35 @@
     const timerEl = document.getElementById("timer");
     const titleEl = document.getElementById("title");
     const selectEl = document.getElementById("modeSelect");
+
     let mode = "countdown";
 
     const startDate = new Date("2024-12-07T23:30:00-08:00"); // PST
 
-    function getNextDec7() {
+    function getTargetDate() {
       const now = new Date();
-      const target = new Date(Date.UTC(now.getFullYear(), 11, 7, 7, 30)); // 11:30 PM PST == 7:30 AM UTC next day
-      if (now > target) target.setFullYear(now.getFullYear() + 1);
-      return target;
-    }
 
-    function getNextMonth7th() {
-      const now = new Date();
-      let year = now.getUTCFullYear();
-      let month = now.getUTCMonth();
+      if (mode === "countdown") {
+        const target = new Date();
+        target.setMonth(11); // December
+        target.setDate(7);
+        target.setHours(23, 30, 0, 0);
+        if (now > target) target.setFullYear(target.getFullYear() + 1);
+        return target;
 
-      let target = new Date(Date.UTC(year, month, 7, 7, 30)); // 7:30 UTC = 11:30 PM PST
-      if (now > target) {
-        month++;
-        if (month > 11) {
-          month = 0;
-          year++;
+      } else if (mode === "month") {
+        const target = new Date(now);
+        target.setDate(7);
+        target.setHours(23, 30, 0, 0);
+
+        if (now > target) {
+          target.setMonth(target.getMonth() + 1);
         }
-        target = new Date(Date.UTC(year, month, 7, 7, 30));
+        return target;
+
+      } else {
+        return now; // For stopwatch
       }
-      return target;
     }
 
     function updateDisplay(duration) {
@@ -180,7 +194,7 @@
       ];
 
       timerEl.innerHTML = units.map(([label, val]) => `
-        <div class="unit">
+        <div class="unit ${val === 0 ? "zero" : ""}">
           ${String(val).padStart(2, '0')}
           <div class="label">${label}</div>
         </div>
@@ -191,26 +205,33 @@
       const now = new Date();
       let diff;
 
-      if (mode === "countdown") {
-        const target = getNextDec7();
-        diff = target - now;
-        titleEl.innerText = "💙Dating💜 Anniversary In";
-      } else if (mode === "month") {
-        const target = getNextMonth7th();
-        diff = target - now;
-        titleEl.innerText = "💙Dating💜 Month Anniversary In";
-      } else {
+      if (mode === "stopwatch") {
         diff = now - startDate;
+        if (diff < 0) diff = 0;
         titleEl.innerText = "💙Dating💜 For";
+      } else {
+        const target = getTargetDate();
+        diff = target - now;
+        if (diff < 0) diff = 0;
+        titleEl.innerText = mode === "month" ? "💙Next💜 7th Month Anniversary In" : "💙Dating💜 Anniversary In";
       }
 
-      if (diff < 0) diff = 0;
       updateDisplay(diff);
       requestAnimationFrame(updateTimer);
     }
 
     function changeMode() {
-      mode = selectEl.value;
+      const timerContainer = document.getElementById("timer");
+      const title = document.getElementById("title");
+
+      timerContainer.classList.add("fade-out");
+      title.classList.add("fade-out");
+
+      setTimeout(() => {
+        mode = selectEl.value;
+        timerContainer.classList.remove("fade-out");
+        title.classList.remove("fade-out");
+      }, 400);
     }
 
     updateTimer();
