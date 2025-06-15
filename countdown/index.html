@@ -49,7 +49,7 @@
       margin-top: 5px;
     }
 
-    button {
+    select {
       margin: 30px auto;
       background: rgba(0, 0, 0, 0.8);
       color: white;
@@ -64,7 +64,7 @@
       position: relative;
     }
 
-    button:hover {
+    select:hover {
       background: rgba(0, 0, 0, 0.6);
     }
 
@@ -118,26 +118,45 @@
 <body>
   <h1 id="title">💙Dating💜 Anniversary In</h1>
 
-  <div class="timer" id="timer">
-    <!-- Timer values will be inserted here -->
-  </div>
+  <div class="timer" id="timer"></div>
 
-  <button onclick="toggleMode()">Switch to Stopwatch</button>
+  <select id="modeSelect" onchange="changeMode()">
+    <option value="countdown">Dating Anniversary</option>
+    <option value="month">Dating Month Anniversary</option>
+    <option value="stopwatch">Dating For</option>
+  </select>
 
   <script>
     const timerEl = document.getElementById("timer");
     const titleEl = document.getElementById("title");
-    let mode = "countdown"; // or "stopwatch"
-
-    const targetThisYear = new Date();
-    targetThisYear.setMonth(11); // December
-    targetThisYear.setDate(7);
-    targetThisYear.setHours(23, 30, 0, 0); // 11:30 PM
-    if (new Date() > targetThisYear) {
-      targetThisYear.setFullYear(targetThisYear.getFullYear() + 1);
-    }
+    const selectEl = document.getElementById("modeSelect");
+    let mode = "countdown";
 
     const startDate = new Date("2024-12-07T23:30:00-08:00"); // PST
+
+    function getNextDec7() {
+      const now = new Date();
+      const target = new Date(Date.UTC(now.getFullYear(), 11, 7, 7, 30)); // 11:30 PM PST == 7:30 AM UTC next day
+      if (now > target) target.setFullYear(now.getFullYear() + 1);
+      return target;
+    }
+
+    function getNextMonth7th() {
+      const now = new Date();
+      let year = now.getUTCFullYear();
+      let month = now.getUTCMonth();
+
+      let target = new Date(Date.UTC(year, month, 7, 7, 30)); // 7:30 UTC = 11:30 PM PST
+      if (now > target) {
+        month++;
+        if (month > 11) {
+          month = 0;
+          year++;
+        }
+        target = new Date(Date.UTC(year, month, 7, 7, 30));
+      }
+      return target;
+    }
 
     function updateDisplay(duration) {
       const years = Math.floor(duration / (365.25 * 24 * 60 * 60 * 1000));
@@ -173,23 +192,25 @@
       let diff;
 
       if (mode === "countdown") {
-        diff = targetThisYear - now;
-        if (diff < 0) diff = 0;
+        const target = getNextDec7();
+        diff = target - now;
         titleEl.innerText = "💙Dating💜 Anniversary In";
+      } else if (mode === "month") {
+        const target = getNextMonth7th();
+        diff = target - now;
+        titleEl.innerText = "💙Dating💜 Month Anniversary In";
       } else {
         diff = now - startDate;
-        if (diff < 0) diff = 0;
         titleEl.innerText = "💙Dating💜 For";
       }
 
+      if (diff < 0) diff = 0;
       updateDisplay(diff);
       requestAnimationFrame(updateTimer);
     }
 
-    function toggleMode() {
-      mode = mode === "countdown" ? "stopwatch" : "countdown";
-      document.querySelector("button").innerText =
-        mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
+    function changeMode() {
+      mode = selectEl.value;
     }
 
     updateTimer();
