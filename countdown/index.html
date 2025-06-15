@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Anniversary Timer">
-  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Heart_corazón.svg/768px-Heart_corazón.svg.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Anniversary Timer" />
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Heart_corazón.svg/768px-Heart_corazón.svg.png" />
   <title>Anniversary Countdown</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
       background: linear-gradient(135deg, #00aaff, #aa00ff);
       font-family: 'Segoe UI', sans-serif;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
       color: white;
-      position: relative;
       text-align: center;
-      padding: 0 10px;
-      box-sizing: border-box;
+      padding: 20px 10px;
     }
 
     h1 {
@@ -31,21 +32,20 @@
     }
 
     .timer {
-      font-size: 1.5em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
       gap: 10px;
       width: 100%;
-      box-sizing: border-box;
+      max-width: 1000px;
+      padding: 0 10px;
     }
 
     .unit {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 10px;
       padding: 10px;
+      font-size: 1.4em;
       min-width: 100px;
-      flex: 1 0 auto;
     }
 
     .label {
@@ -75,14 +75,14 @@
   <h1>Time Till Dating 💙Aniversary💜</h1>
 
   <div class="timer" id="timer">
-    <!-- Values populated by JS -->
+    <!-- Timer Units -->
   </div>
 
   <button onclick="toggleMode()">Switch to Stopwatch</button>
 
   <script>
     const timerEl = document.getElementById("timer");
-    let mode = "countdown"; // or "stopwatch"
+    let mode = "countdown";
 
     const targetThisYear = new Date();
     targetThisYear.setMonth(11); // December
@@ -92,7 +92,7 @@
       targetThisYear.setFullYear(targetThisYear.getFullYear() + 1);
     }
 
-    const startDate = new Date("2024-12-07T23:30:00-08:00"); // PST
+    const startDate = new Date("2024-12-07T23:30:00-08:00");
 
     function updateDisplay(duration) {
       const years = Math.floor(duration / (365.25 * 24 * 60 * 60 * 1000));
