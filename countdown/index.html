@@ -72,7 +72,7 @@
 </head>
 <body>
 
-  <h1>Time Till Dating 💙Aniversary💜</h1>
+  <h1 id="title">💙Dating💜 Anniversary In</h1>
 
   <div class="timer" id="timer">
     <!-- Timer Units -->
@@ -82,6 +82,7 @@
 
   <script>
     const timerEl = document.getElementById("timer");
+    const titleEl = document.getElementById("title");
     let mode = "countdown";
 
     const targetThisYear = new Date();
@@ -141,7 +142,12 @@
 
     function toggleMode() {
       mode = mode === "countdown" ? "stopwatch" : "countdown";
-      document.querySelector("button").innerText = mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
+      document.querySelector("button").innerText =
+        mode === "countdown" ? "Switch to Stopwatch" : "Switch to Countdown";
+      titleEl.innerText =
+        mode === "countdown"
+          ? "💙Dating💜 Anniversary In"
+          : "💙Dating💜 For";
     }
 
     updateTimer();
