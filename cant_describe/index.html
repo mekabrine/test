@@ -106,7 +106,7 @@
 </head>
 <body>
   <div class="message" id="phrase">
-    Loading your love note... 💌
+    Loading...
   </div>
 
   <script>
@@ -120,7 +120,7 @@
         const phrase = phrases[Math.floor(Math.random() * phrases.length)];
         displayEl.textContent = phrase;
       } catch (err) {
-        displayEl.textContent = "Couldn't load the love note 💔";
+        displayEl.textContent = "Couldn't load";
         console.error("Phrase load error:", err);
       }
     }
