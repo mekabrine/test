@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I Love You Babe 🥰</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://ilovereagan.space/favicon.ico" type="image/x-icon" />
+
+  <!-- Social Preview -->
+  <meta property="og:title" content="I love you babe 😘🥰" />
+  <meta property="og:description" content="Just a little something for you 💜" />
+  <meta property="og:image" content="https://ilovereagan.space/ilovereaganbanner.jpg" />
+  <meta property="og:url" content="https://ilovereagan.space" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #00aaff, #aa00ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      position: relative;
+      text-align: center;
+    }
+
+    .message {
+      z-index: 1;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+      animation: floatText 4s ease-in-out infinite;
+      padding: 0 20px;
+    }
+
+    .message div {
+      font-size: 3em;
+      line-height: 1.2em;
+    }
+
+    @keyframes floatText {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .heart {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: float 10s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0vh) scale(1) rotate(-45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .message div {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="message" id="phrase">
+    <div>Loading your sweet message... 💌</div>
+  </div>
+
+  <script>
+    // Load random phrase from external JSON
+    fetch('https://ilovereagan.space/phrases.json')
+      .then(res => res.json())
+      .then(phrases => {
+        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+        document.getElementById('phrase').innerHTML = `<div>${phrase}</div>`;
+      })
+      .catch(() => {
+        document.getElementById('phrase').innerHTML = "<div>Couldn't load the love note 💔</div>";
+      });
+
+    // Floating hearts
+    const colors = ['#ff66cc', '#66ccff', '#cc66ff', '#6699ff', '#ff99ff'];
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDelay = `${Math.random() * 10}s`;
+      heart.style.animationDuration = `${6 + Math.random() * 6}s`;
+      heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      document.body.appendChild(heart);
+    }
+  </script>
+</body>
+</html>
