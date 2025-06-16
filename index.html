@@ -31,6 +31,30 @@
       text-align: center;
     }
 
+    .top-buttons {
+      position: absolute;
+      top: 15px;
+      display: flex;
+      gap: 15px;
+      z-index: 10;
+    }
+
+    .top-buttons a {
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .top-buttons a:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
     .message {
       z-index: 1;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
@@ -96,10 +120,20 @@
       .message div {
         font-size: 2.5em;
       }
+      .top-buttons {
+        flex-direction: column;
+        align-items: center;
+        top: 10px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="top-buttons">
+    <a href="https://ilovereagan.space/forever/">How Long?</a>
+    <a href="https://ilovereagan.space/cant_describe/">How Much?</a>
+  </div>
+
   <div class="message">
     <div>I love you</div>
     <div>babe</div>
