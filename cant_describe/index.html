@@ -39,8 +39,8 @@
     }
 
     .message div {
-      font-size: 3em;
-      line-height: 1.2em;
+      font-size: 2.8em;
+      line-height: 1.4em;
     }
 
     @keyframes floatText {
@@ -106,16 +106,22 @@
   </div>
 
   <script>
-    // Load random phrase from external JSON
-    fetch('https://ilovereagan.space/phrases.json')
-      .then(res => res.json())
-      .then(phrases => {
+    const displayEl = document.getElementById('phrase');
+
+    async function loadRandomPhrase() {
+      try {
+        const res = await fetch('https://ilovereagan.space/phrases.json', { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch");
+        const phrases = await res.json();
         const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-        document.getElementById('phrase').innerHTML = `<div>${phrase}</div>`;
-      })
-      .catch(() => {
-        document.getElementById('phrase').innerHTML = "<div>Couldn't load the love note 💔</div>";
-      });
+        displayEl.innerHTML = `<div>${phrase}</div>`;
+      } catch (err) {
+        displayEl.innerHTML = "<div>Couldn't load the love note 💔</div>";
+        console.error("Phrase load error:", err);
+      }
+    }
+
+    loadRandomPhrase();
 
     // Floating hearts
     const colors = ['#ff66cc', '#66ccff', '#cc66ff', '#6699ff', '#ff99ff'];
